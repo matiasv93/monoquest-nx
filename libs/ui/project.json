@@ -1,0 +1,8 @@
+{
+  "name": "@monoquest-nx/ui",
+  "projectType": "library",
+  "root": "libs/ui",
+  "sourceRoot": "libs/ui/src",
+  "targets": {},
+  "tags": []
+}
