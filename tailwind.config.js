@@ -1,5 +1,8 @@
-const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
-const { join } = require('path');
+import { createGlobPatternsForDependencies } from '@nx/react/tailwind';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const projectRoots = [
   'apps/web',
@@ -8,15 +11,13 @@ const projectRoots = [
 ];
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    ...projectRoots.flatMap((projectRoot) => [
-      join(__dirname, `${projectRoot}/src/**/*.{ts,tsx,js,jsx,html}`),
-      ...createGlobPatternsForDependencies(join(__dirname, projectRoot)),
-    ]),
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+export const content = [
+  ...projectRoots.flatMap((projectRoot) => [
+    join(__dirname, `${projectRoot}/src/**/*.{ts,tsx,js,jsx,html}`),
+    ...createGlobPatternsForDependencies(join(__dirname, projectRoot)),
+  ]),
+];
+export const theme = {
+  extend: {},
 };
+export const plugins = [];

@@ -2,6 +2,7 @@
   "name": "@monoquest-nx/web",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "devDependencies": {
     "tailwindcss": "^3.4.3"
   }

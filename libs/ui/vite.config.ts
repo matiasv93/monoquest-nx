@@ -2,7 +2,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
-import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(() => ({
   root: __dirname,
@@ -11,7 +14,7 @@ export default defineConfig(() => ({
     react(),
     dts({
       entryRoot: 'src',
-      tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
+      tsconfigPath: join(__dirname, 'tsconfig.lib.json'),
     }),
   ],
   // Uncomment this if you are using workers.
