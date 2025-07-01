@@ -20,8 +20,7 @@ describe('App', () => {
       </BrowserRouter>
     );
     expect(
-      getAllByText(new RegExp('Welcome @monoquest-nx/monoquest-nx', 'gi'))
-        .length > 0
+      getAllByText(new RegExp('Welcome @monoquest-nx/web', 'gi')).length > 0
     ).toBeTruthy();
   });
 });

@@ -25,19 +25,19 @@ This will switch to Node.js version 20.18.1 as specified in the `.nvmrc` file.
 To run the dev server for your app, use:
 
 ```sh
-npx nx serve monoquest-nx
+npx nx serve web
 ```
 
 To create a production bundle:
 
 ```sh
-npx nx build monoquest-nx
+npx nx build web
 ```
 
 To see all available targets to run for a project, run:
 
 ```sh
-npx nx show project monoquest-nx
+npx nx show project web
 ```
 
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.

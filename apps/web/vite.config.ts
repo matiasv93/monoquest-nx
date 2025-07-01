@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/apps/monoquest-nx',
+  cacheDir: '../../node_modules/.vite/apps/web',
   server: {
     port: 4200,
     host: 'localhost',
