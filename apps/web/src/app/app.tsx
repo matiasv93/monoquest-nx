@@ -1,11 +1,10 @@
 import { Route, Routes, Link } from 'react-router';
-import NxWelcome from './nx-welcome';
+import { MonoquestNxUi } from '@monoquest-nx/ui';
 
 export function App() {
   return (
     <div>
-      <NxWelcome title="@monoquest-nx/web" />
-
+      <MonoquestNxUi />
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
       {/* Feel free to move and update them to fit your needs */}

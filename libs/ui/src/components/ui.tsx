@@ -7,5 +7,3 @@ export function MonoquestNxUi() {
     </div>
   );
 }
-
-export default MonoquestNxUi;
