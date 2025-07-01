@@ -12,6 +12,7 @@
       "vite/client"
     ],
     "rootDir": "src",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
