@@ -36,7 +36,8 @@ monoquest-nx/
             index.tsx           # React Router route definitions (nested, maintainable)
           app.tsx               # App entry, sets up routing/layout
           app.spec.tsx          # App-level tests
-          breadcrumbConfig.ts   # Default and random label logic for breadcrumbs
+        utils/
+          breadcrumb.ts         # Breadcrumb label defaults and randomization logic (moved from breadcrumbConfig.ts)
         styles.css              # Tailwind CSS entrypoint for the app
       vite.config.ts            # Vite config for the web app
   libs/
@@ -60,7 +61,7 @@ monoquest-nx/
 #### Architectural Rationale
 
 - **Separation of Concerns**: Apps, libs, and configs are strictly separated, making it easy to scale, test, and deploy independently.
-- **Context for Global State**: Breadcrumb labels and randomization logic are managed via React Context, ensuring global consistency and easy updates from any route.
+- **Context for Global State**: Breadcrumb labels and randomization logic are managed via React Context, with the logic now in `apps/web/src/utils/breadcrumb.ts` for better utility reuse and organization.
 - **Centralized Theming & Config**: All Tailwind and PostCSS configuration is at the root, ensuring a single source of truth for design tokens and build pipeline.
 - **Colocation for Discoverability**: Components, stories, and tests are colocated for fast onboarding and easier refactoring.
 - **Barrel Exports**: Used throughout for clean, maintainable imports and to avoid deep relative paths.
