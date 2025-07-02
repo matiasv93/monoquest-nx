@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "scaffold-rr7-app": {
+      "factory": "./generators/scaffold-rr7-app/scaffold-rr7-app",
+      "schema": "./generators/scaffold-rr7-app/schema.json",
+      "description": "scaffold-rr7-app generator"
+    }
+  }
+}
