@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["cssmodule", "monoquest"]
+  "cSpell.words": ["cssmodule", "monoquest"],
+  "eslint.validate": ["json"]
 }
