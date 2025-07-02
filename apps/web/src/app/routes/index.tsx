@@ -1,23 +1,14 @@
-import { Route, Link } from 'react-router';
+import { Route } from 'react-router';
+
+import { FooPage, BarPage, BazPage } from '../pages';
+import { BreadcrumbControls } from '../layouts/BreadcrumbControls';
 
 export const AppRoutes = (
-  <>
-    <Route
-      path="/"
-      element={
-        <div>
-          This is the generated root route.{' '}
-          <Link to="/page-2">Click here for page 2.</Link>
-        </div>
-      }
-    />
-    <Route
-      path="/exam"
-      element={
-        <div>
-          <Link to="/">Click here to go back to root page.</Link>
-        </div>
-      }
-    />
-  </>
+  <Route path="/" element={<BreadcrumbControls />}>
+    <Route path="/foo" element={<FooPage />}>
+      <Route path="bar" element={<BarPage />}>
+        <Route path="baz" element={<BazPage />} />
+      </Route>
+    </Route>
+  </Route>
 );
