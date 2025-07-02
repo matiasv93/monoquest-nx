@@ -1,10 +1,12 @@
 import { Route, Routes, Link } from 'react-router';
-import { MonoquestNxUi } from '@monoquest-nx/ui';
+import { Button } from '@monoquest-nx/ui';
 
 export function App() {
   return (
     <div>
-      <MonoquestNxUi />
+      <Button onClick={() => alert('Button from UI lib clicked!')}>
+        UI Button
+      </Button>
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
       {/* Feel free to move and update them to fit your needs */}

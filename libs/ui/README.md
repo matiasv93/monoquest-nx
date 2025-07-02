@@ -33,6 +33,35 @@ To add a shadcn/ui component (e.g., Button) to this library, follow these steps:
      ```
    - This makes the component available to consumers of the UI library.
 
+## Generating a Storybook Story for a Component
+
+To generate a Storybook story for a component (e.g., Button):
+
+1. **Generate the story file:**
+   ```sh
+   nx g @nx/react:component-story --component button --project @monoquest-nx/ui
+   ```
+   - When prompted for the path, enter the path to your component relative to the library root (e.g., `src/components/button.tsx`).
+2. **If the generator does not work or you want to add a story manually:**
+
+   - Create a file like `libs/ui/src/components/button.stories.tsx` with the following content:
+
+     ```tsx
+     import type { Meta, StoryObj } from '@storybook/react';
+     import { Button } from './button';
+
+     const meta: Meta<typeof Button> = {
+       title: 'Components/Button',
+       component: Button,
+     };
+     export default meta;
+     type Story = StoryObj<typeof Button>;
+
+     export const Primary: Story = {
+       args: { children: 'Button' },
+     };
+     ```
+
 ## Running unit tests
 
 Run `nx test @monoquest-nx/ui` to execute the unit tests via [Vitest](https://vitest.dev/).
