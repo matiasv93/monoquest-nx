@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { defaultLabels, getRandomLabel } from '../breadcrumbConfig';
+import { defaultLabels, getRandomLabel } from '../utils/breadcrumb';
 
 type BreadcrumbLabels = { foo: string; bar: string; baz: string };
 
