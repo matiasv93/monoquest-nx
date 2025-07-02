@@ -11,6 +11,7 @@
     "@nx/eslint": "21.2.1",
     "@nx/eslint-plugin": "21.2.1",
     "@nx/js": "21.2.1",
+    "@nx/plugin": "^21.2.1",
     "@nx/react": "21.2.1",
     "@nx/storybook": "21.2.1",
     "@nx/vite": "21.2.1",
