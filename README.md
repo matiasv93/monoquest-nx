@@ -2,36 +2,69 @@
 
 ## Monorepo Architecture & Conventions
 
-- **Nx** is used for workspace orchestration, code generation, and task running.
-- **Apps** live in `apps/`, libraries in `libs/`.
-- **UI components** are in `libs/ui`, with colocated stories and styles.
-- **Tailwind CSS and PostCSS configs** are centralized at the monorepo root for consistency and DRYness.
-- **Vite** is used as the build tool for apps and Storybook.
-- **shadcn/ui** is used for modern, accessible React components and design tokens.
+- **Nx** is used for workspace orchestration, code generation, and task running, enabling modular, maintainable, and scalable codebases.
+- **Apps** live in `apps/`, libraries in `libs/`—enforcing clear separation of concerns and boundaries between deployable units and shared code.
+- **UI components** are in `libs/ui`, with colocated stories and styles for discoverability and rapid UI iteration.
+- **Tailwind CSS and PostCSS configs** are centralized at the monorepo root for consistency, DRYness, and single-source-of-truth theming.
+- **Vite** is used as the build tool for apps and Storybook, providing fast local development and optimized builds.
+- **shadcn/ui** is used for modern, accessible React components and design tokens, with all design tokens and theme customizations managed centrally.
 - **Storybook** is included (though not required) to showcase and visually test UI components. For larger monorepos, Storybook instances can be isolated in `libs/docs/` to keep documentation and demos separate from implementation code.
+- **Context & State**: React Context is used for global, cross-route state (e.g., breadcrumb labels), avoiding prop drilling and enabling global UI updates from any page.
+- **Routing**: All route definitions are colocated in a single file for maintainability, with nested routes and layouts for shared UI (e.g., breadcrumbs, controls).
+- **Testing**: Unit and integration tests are colocated with their respective apps/libs for fast feedback and clear ownership.
 
 ### Folder Structure
 
 ```
 monoquest-nx/
   apps/
-    web/                # Main web app
+    web/                        # Main web application
       src/
         app/
-        styles.css      # Tailwind entry for app
-      vite.config.ts
+          components/
+            BreadcrumbNav/      # Breadcrumb navigation component (clickable, context-driven)
+          contexts/
+            BreadcrumbContext.tsx # React context for breadcrumb state and randomization
+          layouts/
+            BreadcrumbControls/ # Layout for breadcrumbs and randomize button, with spacing/styling
+          pages/
+            Bar/                # Page component for /foo/bar
+            Baz/                # Page component for /foo/bar/baz
+            Foo/                # Page component for /foo
+            index.tsx           # Page index/barrel
+          routes/
+            index.tsx           # React Router route definitions (nested, maintainable)
+          app.tsx               # App entry, sets up routing/layout
+          app.spec.tsx          # App-level tests
+          breadcrumbConfig.ts   # Default and random label logic for breadcrumbs
+        styles.css              # Tailwind CSS entrypoint for the app
+      vite.config.ts            # Vite config for the web app
   libs/
-    ui/                # Shared UI library
+    ui/                        # Shared UI component library
       src/
-        components/     # Reusable components (with stories)
-        styles/         # Global styles (e.g., global.css)
-        lib/            # Utilities (e.g., cn)
-        index.ts        # Barrel export
-  tailwind.config.js    # Centralized Tailwind config
-  postcss.config.js     # Centralized PostCSS config
-  package.json
+        components/            # Reusable UI components (with colocated stories)
+        styles/                # Global styles (e.g., global.css)
+        lib/                   # Utilities (e.g., cn)
+        index.ts               # Barrel export for the UI lib
+      tailwind.config.cjs      # (If present) Only for CLI compatibility, not used for builds
+      vite.config.ts           # Vite config for the UI lib
+  tailwind.config.cjs          # Centralized Tailwind config (used by all apps/libs)
+  postcss.config.cjs           # Centralized PostCSS config
+  package.json                 # Monorepo dependencies and scripts
+  nx.json                      # Nx workspace configuration
+  tsconfig.base.json           # Base TypeScript config
+  README.md                    # Project documentation (this file)
   ...
 ```
+
+#### Architectural Rationale
+
+- **Separation of Concerns**: Apps, libs, and configs are strictly separated, making it easy to scale, test, and deploy independently.
+- **Context for Global State**: Breadcrumb labels and randomization logic are managed via React Context, ensuring global consistency and easy updates from any route.
+- **Centralized Theming & Config**: All Tailwind and PostCSS configuration is at the root, ensuring a single source of truth for design tokens and build pipeline.
+- **Colocation for Discoverability**: Components, stories, and tests are colocated for fast onboarding and easier refactoring.
+- **Barrel Exports**: Used throughout for clean, maintainable imports and to avoid deep relative paths.
+- **Routing & Layouts**: Nested routes and shared layouts (e.g., for breadcrumbs and controls) enable DRY, maintainable UI composition.
 
 ---
 
@@ -108,6 +141,42 @@ monoquest-nx/
   npx nx graph
   ```
 - Generate new apps/libs/components with Nx generators.
+
+---
+
+## Scalability & Future Improvements
+
+As the app and monorepo grow, consider the following enhancements to ensure maintainability, performance, and developer velocity:
+
+### Nx Cloud, Caching, and CI/CD
+
+- **Nx Cloud Integration**: Enable Nx Cloud for distributed computation caching, remote task execution, and detailed analytics. This dramatically speeds up CI and local builds by reusing results across machines and contributors.
+- **Incremental Builds & Affected Commands**: Use Nx's `affected:*` commands to only build, test, or lint what has changed, reducing CI times and resource usage.
+- **CI/CD Pipelines**: Integrate Nx with your CI provider (GitHub Actions, GitLab CI, etc.) to run affected tasks, cache results, and enforce code quality. Example: run `npx nx affected --target=build --parallel` in CI.
+- **Distributed Task Execution**: For large teams, Nx Cloud can distribute builds and tests across multiple agents, further reducing feedback loops.
+
+### Codebase & Architecture
+
+- **Domain-Driven Libraries**: As features grow, split shared code into domain-specific libraries (e.g., `libs/auth`, `libs/data-access`) for better encapsulation and ownership.
+- **API Layer**: Add a dedicated API library for data fetching, caching, and type-safe API contracts (e.g., using tRPC or GraphQL).
+- **State Management**: For more complex state, consider libraries like Zustand, Jotai, or Redux Toolkit, but keep context for truly global, cross-cutting state.
+- **Code Splitting & Lazy Loading**: Use React's `lazy` and `Suspense` to split large routes/pages for faster initial loads.
+- **Theming & Design Tokens**: If supporting multiple brands/themes, extract design tokens into a dedicated library and use CSS variables for runtime theming.
+- **Storybook Docs Mode**: For design systems, enable Storybook Docs mode and consider publishing Storybook as a static site for internal/external consumers.
+- **Automated Dependency Updates**: Use tools like Renovate or Dependabot to keep dependencies up to date and secure.
+
+### Testing & Quality
+
+- **E2E Testing**: Add Cypress or Playwright for end-to-end tests, colocated in `apps/web-e2e` or similar.
+- **Visual Regression Testing**: Integrate Chromatic or Loki with Storybook to catch UI regressions automatically.
+- **Strict TypeScript Settings**: Enforce strict TS settings for long-term maintainability.
+- **Linting & Formatting**: Use Nx plugins for ESLint, Prettier, and Stylelint to enforce code quality and consistency.
+
+### Observability & Operations
+
+- **Error Monitoring**: Integrate Sentry or a similar tool for real-time error tracking.
+- **Performance Monitoring**: Use tools like Web Vitals, Lighthouse CI, or Datadog for continuous performance insights.
+- **Bundle Analysis**: Regularly analyze bundle size with Vite or Nx plugins to prevent bloat.
 
 ---
 
