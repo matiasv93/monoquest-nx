@@ -1,0 +1,16 @@
+{
+  "name": "nx-generators",
+  "projectType": "library",
+  "root": "libs/nx-generators",
+  "sourceRoot": "libs/nx-generators/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "outputPath": "dist/libs/nx-generators",
+        "main": "libs/nx-generators/src/index.ts",
+        "tsConfig": "libs/nx-generators/tsconfig.lib.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+import React from 'react';
+import { BrowserRouter, Routes } from 'react-router-dom';
+import { BreadcrumbProvider } from './contexts/BreadcrumbContext';
+import { AppRoutes } from './routes';
+import '../styles.css';
+
+export function App() {
+  return (
+    <BrowserRouter>
+      <BreadcrumbProvider>
+        <Routes>{AppRoutes}</Routes>
+      </BreadcrumbProvider>
+    </BrowserRouter>
+  );
+}
