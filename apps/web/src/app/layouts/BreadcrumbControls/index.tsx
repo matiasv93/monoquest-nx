@@ -1,0 +1,21 @@
+import React from 'react';
+import { Button } from '@monoquest-nx/ui';
+
+import { BreadcrumbsNav } from '../../components/BreadcrumbNav';
+import { useBreadcrumbs } from '../../contexts/BreadcrumbContext';
+
+export const BreadcrumbControls: React.FC = () => {
+  const { randomize } = useBreadcrumbs();
+
+  return (
+    <div className="p-6 flex flex-col gap-6 items-start">
+      <BreadcrumbsNav />
+      <Button
+        onClick={randomize}
+        className="bg-blue-600 text-white hover:bg-blue-700 transition-colors font-semibold px-6 py-2 rounded"
+      >
+        Randomize Breadcrumbs
+      </Button>
+    </div>
+  );
+};
