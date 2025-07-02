@@ -4,7 +4,7 @@
   "rsc": false,
   "tsx": true,
   "tailwind": {
-    "config": "tailwind.config.js",
+    "config": "tailwind.config.cjs",
     "css": "src/styles/global.css",
     "baseColor": "gray",
     "cssVariables": true,
@@ -15,7 +15,7 @@
     "utils": "@monoquest-nx/ui",
     "ui": "@monoquest-nx/ui/components",
     "lib": "@monoquest-nx/ui",
-    "hooks": "@monoquest-nx/ui/hooks"
+    "hooks": "@monoquest-nx/ui"
   },
   "iconLibrary": "lucide"
 }
