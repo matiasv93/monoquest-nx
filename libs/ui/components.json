@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@/components",
-    "utils": "@/lib/utils",
-    "ui": "@/components/ui",
-    "lib": "@/lib",
-    "hooks": "@/hooks"
+    "components": "@monoquest-nx/ui/components",
+    "utils": "@monoquest-nx/ui",
+    "ui": "@monoquest-nx/ui/components",
+    "lib": "@monoquest-nx/ui",
+    "hooks": "@monoquest-nx/ui/hooks"
   },
   "iconLibrary": "lucide"
 }
