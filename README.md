@@ -1,95 +1,119 @@
 # MonoquestNx
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+## Monorepo Architecture & Conventions
 
-## Node.js version
+- **Nx** is used for workspace orchestration, code generation, and task running.
+- **Apps** live in `apps/`, libraries in `libs/`.
+- **UI components** are in `libs/ui`, with colocated stories and styles.
+- **Tailwind CSS and PostCSS configs** are centralized at the monorepo root for consistency and DRYness.
+- **Vite** is used as the build tool for apps and Storybook.
+- **shadcn/ui** is used for modern, accessible React components and design tokens.
+- **Storybook** is included (though not required) to showcase and visually test UI components. For larger monorepos, Storybook instances can be isolated in `libs/docs/` to keep documentation and demos separate from implementation code.
 
-This project uses [nvm](https://github.com/nvm-sh/nvm) to manage Node.js versions. To ensure you are using the correct version, run:
+### Folder Structure
 
-```sh
-nvm use
+```
+monoquest-nx/
+  apps/
+    web/                # Main web app
+      src/
+        app/
+        styles.css      # Tailwind entry for app
+      vite.config.ts
+  libs/
+    ui/                # Shared UI library
+      src/
+        components/     # Reusable components (with stories)
+        styles/         # Global styles (e.g., global.css)
+        lib/            # Utilities (e.g., cn)
+        index.ts        # Barrel export
+  tailwind.config.js    # Centralized Tailwind config
+  postcss.config.js     # Centralized PostCSS config
+  package.json
+  ...
 ```
 
-This will switch to Node.js version 20.18.1 as specified in the `.nvmrc` file.
+---
 
-## Tailwind CSS project roots
+## Setup & Usage
 
-If you add a new app or library that uses Tailwind CSS, **be sure to add its project root to the `projectRoots` array in `tailwind.config.js`** at the root of the monorepo. This ensures Tailwind scans the correct files for class usage and generates the necessary styles.
+- **Node version:**
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+  - Use `nvm use` to match the version in `.nvmrc` (20.18.1).
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- **Running the web app:**
 
-## Finish your remote caching setup
+  ```sh
+  npx nx serve web
+  ```
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/snpnelHpve)
+- **Building for production:**
 
-## Run tasks
+  ```sh
+  npx nx build web
+  ```
 
-To run the dev server for your app, use:
+- **Running Storybook for UI lib:**
 
-```sh
-npx nx serve web
-```
+  ```sh
+  npx nx storybook ui
+  ```
 
-To create a production bundle:
+- **Testing:**
+  ```sh
+  npx nx test <project>
+  ```
 
-```sh
-npx nx build web
-```
+---
 
-To see all available targets to run for a project, run:
+## Tailwind CSS Integration
 
-```sh
-npx nx show project web
-```
+- The root `tailwind.config.js` must include all relevant app and lib source files in its `content` array.
+- If you add a new app or lib that uses Tailwind, add its root to the `projectRoots` array in `tailwind.config.js`.
+- All Tailwind theme customizations (e.g., colors for shadcn/ui) should be defined in the root config for consistency.
+- Each app must import a CSS file with Tailwind directives (`@tailwind base; ...`).
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+---
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## shadcn/ui & Component Development
 
-## Add new projects
+- Use the shadcn CLI to scaffold new components in `libs/ui`:
+  ```sh
+  npx shadcn@latest add <component> -c libs/ui
+  ```
+- After generation, update any internal imports (e.g., `cn`) to use relative paths to comply with Nx's enforce-module-boundaries rule.
+- Export new components from `libs/ui/src/components/index.ts` and `libs/ui/src/index.ts`.
+- Add or update Storybook stories for each component in the same folder.
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+---
 
-Use the plugin's generator to create new projects.
+## Best Practices & Notes
 
-To generate a new application, use:
+- **Centralize configuration**: Keep Tailwind, PostCSS, and other shared configs at the root.
+- **No duplicate configs**: Do not create per-lib or per-app Tailwind/PostCSS configs unless absolutely necessary.
+- **Consistent exports**: Use barrel files (`index.ts`) for clean imports.
+- **Semantic theming**: Use CSS variables and semantic color names in Tailwind for easy theming and shadcn/ui compatibility.
+- **Keep README up to date**: Document any architectural or workflow decisions here.
 
-```sh
-npx nx g @nx/react:app demo
-```
+---
 
-To generate a new library, use:
+## Nx & Useful Commands
 
-```sh
-npx nx g @nx/react:lib mylib
-```
+- List all projects:
+  ```sh
+  npx nx show projects
+  ```
+- Visualize the project graph:
+  ```sh
+  npx nx graph
+  ```
+- Generate new apps/libs/components with Nx generators.
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+---
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## References
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [Nx Documentation](https://nx.dev)
+- [Vite Documentation](https://vitejs.dev)
+- [Tailwind CSS Documentation](https://tailwindcss.com)
+- [shadcn/ui Documentation](https://ui.shadcn.com)
