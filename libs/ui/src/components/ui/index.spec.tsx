@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import MonoquestNxUi from './ui';
+import { MonoquestNxUi } from '.';
 
 describe('MonoquestNxUi', () => {
   it('should render successfully', () => {
