@@ -12,6 +12,10 @@ nvm use
 
 This will switch to Node.js version 20.18.1 as specified in the `.nvmrc` file.
 
+## Tailwind CSS project roots
+
+If you add a new app or library that uses Tailwind CSS, **be sure to add its project root to the `projectRoots` array in `tailwind.config.js`** at the root of the monorepo. This ensures Tailwind scans the correct files for class usage and generates the necessary styles.
+
 ✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
 
 [Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
