@@ -1,11 +1,13 @@
-import { Route, Routes, Link } from 'react-router';
+import { Routes, Link } from 'react-router';
 import { Button } from '@monoquest-nx/ui';
+
+import { AppRoutes } from './routes';
 
 export function App() {
   return (
-    <div>
+    <>
       <Button onClick={() => alert('Button from UI lib clicked!')}>
-        UI Button
+        Randomize breadcrumb labels!
       </Button>
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
@@ -23,27 +25,8 @@ export function App() {
           </li>
         </ul>
       </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
-      </Routes>
-      {/* END: routes */}
-    </div>
+      <Routes>{AppRoutes}</Routes>
+    </>
   );
 }
 
