@@ -4,5 +4,12 @@
   "sourceRoot": "apps/web/src",
   "projectType": "application",
   "tags": ["scope:web", "type:app"],
-  "targets": {}
+  "targets": {
+    "type-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit --project apps/web/tsconfig.app.json"
+      }
+    }
+  }
 }
