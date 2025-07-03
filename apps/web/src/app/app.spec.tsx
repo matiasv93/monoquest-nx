@@ -19,8 +19,6 @@ describe('App', () => {
         <App />
       </BrowserRouter>
     );
-    expect(
-      getAllByText(new RegExp('Welcome @monoquest-nx/web', 'gi')).length > 0
-    ).toBeTruthy();
+    expect(getAllByText(/Randomize Breadcrumbs/).length > 0).toBeTruthy();
   });
 });
