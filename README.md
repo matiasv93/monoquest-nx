@@ -93,9 +93,46 @@ monoquest-nx/
   npx nx storybook ui
   ```
 
-- **Testing:**
+---
+
+## Type Checking, Linting, and Testing
+
+You can run these tasks for the entire monorepo or for individual projects:
+
+### **Type Checking**
+
+- **All projects:**
   ```sh
-  npx nx test <project>
+  npx nx type-check
+  ```
+- **Individual project:**
+  ```sh
+  npx nx type-check web
+  npx nx type-check ui
+  ```
+
+### **Linting**
+
+- **All projects:**
+  ```sh
+  npx nx lint
+  ```
+- **Individual project:**
+  ```sh
+  npx nx lint web
+  npx nx lint ui
+  ```
+
+### **Testing**
+
+- **All projects:**
+  ```sh
+  npx nx test
+  ```
+- **Individual project:**
+  ```sh
+  npx nx test web
+  npx nx test ui
   ```
 
 ---
